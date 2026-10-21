@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.ListObjectsRequest;
+import software.amazon.awssdk.services.s3.model.ListObjectsResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
@@ -33,17 +35,20 @@ public class S3Service implements IS3Service {
                 .bucket(buckerName)
                 .key(key)
                 .contentType(file.getContentType() != null
-                ? file.getContentType():
-                        "application/octet-stream")
+                    ? file.getContentType(): "application/octet-stream")
                 .build();
         try (InputStream inputStream = file.getInputStream()) {
             PutObjectResponse putObjectResponse = s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(inputStream, file.getSize()));
-            System.out.println(putObjectResponse.checksumSHA1());
+            System.out.println("Upload Success: " + putObjectResponse.checksumSHA256());
         }
         catch(Exception e){
             System.out.println("Error uploading file:  " + e.getMessage());
         }
         return key;
+    }
+
+    public ListObjectsResponse getBucketObjects() {
+        return s3Client.listObjects(ListObjectsRequest.builder().bucket(buckerName).build());
     }
 
 }
