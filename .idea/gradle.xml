@@ -10,6 +10,14 @@
           </set>
         </option>
       </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/lambda-s3-watermark" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/lambda-s3-watermark" />
+          </set>
+        </option>
+      </GradleProjectSettings>
     </option>
   </component>
 </project>
